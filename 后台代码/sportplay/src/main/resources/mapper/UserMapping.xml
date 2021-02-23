@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sxxy.sportplay.dao.UserDao">
+    <!--根据用户名和密码查询用户 -->
+    <select id="getUserByMessage" resultType="com.sxxy.sportplay.bean.User">
+         SELECT * FROM easyuser where  username=#{userName} and password = #{password} and state = '0';
+    </select>
+
+    <!--查询所有用户 -->
+    <select id="getAllUser" resultType="com.sxxy.sportplay.bean.User">
+        select * from easyuser
+        <if test="userName != null">
+            where username like #{userName}
+        </if>
+        limit #{pageStart},#{pageSize}
+    </select>
+
+    <!--获取用户数量 -->
+    <select id="getUserCounts" resultType="java.lang.Integer">
+         select count(*) from easyuser
+        <if test="userName != null">
+            where username like #{userName}
+        </if>
+    </select>
+
+    <!--修改用户状态 -->
+    <update id="updateState">
+        update easyuser set state = #{state} where id = #{id}
+    </update>
+
+    <!--添加新用户 -->
+    <insert id="addUser" parameterType="com.sxxy.sportplay.bean.User">
+          insert into easyuser (username,password,email,role,state)
+          values (#{userName},#{password},#{email},#{role},#{state})
+    </insert>
+
+    <!--删除用户 -->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+         delete from  easyuser where id = #{id}
+    </delete>
+
+    <!--根据ID查询用户 -->
+    <select id="getUpdateUser" resultType="com.sxxy.sportplay.bean.User">
+         select * from easyuser where id = #{id}
+    </select>
+
+    <!--更新用户信息 -->
+    <update id="updateUser" parameterType="com.sxxy.sportplay.bean.User">
+        update easyuser
+        set username = #{userName},
+            password = #{password},
+            email = #{email}
+        where
+            id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,17 @@
+const router = new VueRouter({
+  routes: [
+    
+  ]
+})
+
+//挂载路由导航守卫
+router.beforeEach((to,from,next)=>{
+  // to将要访问
+  // from从哪访问
+  // next 接着
+  if(to.path == '/login')
+  // 获取user
+  var userFlag = window.sessionStorage.getItem("user");
+  if (!userFlag) return next('/login');// 无值,返回登录页面
+  next();//符合要求,继续运行
+})
